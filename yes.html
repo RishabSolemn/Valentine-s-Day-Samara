@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Samara 💖</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+    background:black;
+    color:white;
+}
+
+/* Fade in */
+body{
+    opacity:0;
+    animation:fadeIn 2s ease forwards;
+}
+@keyframes fadeIn{
+    to{opacity:1;}
+}
+
+/* Galaxy */
+.galaxy{
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle at center,#ff2a6d,#000 70%);
+    animation:rotate 60s linear infinite;
+    z-index:-3;
+}
+@keyframes rotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+/* Glow */
+.glow{
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:#ff2a6d;
+    filter:blur(200px);
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    opacity:0.3;
+    animation:pulse 6s ease-in-out infinite;
+}
+@keyframes pulse{
+    0%,100%{transform:translate(-50%,-50%) scale(1);}
+    50%{transform:translate(-50%,-50%) scale(1.1);}
+}
+
+/* Card */
+.card{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    padding:40px;
+    width:90%;
+    max-width:420px;
+    border-radius:25px;
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.05);
+    box-shadow:0 0 40px #ff2a6d;
+}
+
+.name{
+    font-size:26px;
+    font-weight:bold;
+    margin-top:10px;
+    animation:glowText 2s ease-in-out infinite alternate;
+}
+@keyframes glowText{
+    from{text-shadow:0 0 10px #fff, 0 0 20px #ff2a6d;}
+    to{text-shadow:0 0 20px #fff, 0 0 40px #ff6aa0;}
+}
+
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    border:none;
+    border-radius:25px;
+    background:white;
+    color:#ff2a6d;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover{
+    box-shadow:0 0 15px #ff2a6d;
+}
+
+.secret{
+    margin-top:15px;
+    opacity:0;
+    transition:opacity 1s ease;
+    line-height:1.6;
+}
+
+.audioSection{
+    margin-top:20px;
+    opacity:0;
+    transition:opacity 1s ease;
+}
+</style>
+</head>
+
+<body>
+
+<div class="galaxy"></div>
+<div class="glow"></div>
+
+<audio id="bgMusic" autoplay loop>
+    <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="singing">
+    <source src="singing.mp4" type="audio/mp4">
+</audio>
+
+<div class="card">
+    <h2 id="mainText"></h2>
+    <div class="name">Samara 💖</div>
+
+    <button onclick="reveal()">Unlock 💎</button>
+
+    <div id="secret" class="secret">
+        <br>
+        HOLA 💫<br><br>
+
+        I know we are young and this may not be the most appropriate thing…  
+        but hope is alive, and these are memories for us, ma.  
+
+        This is our first Valentine’s Day together.  
+        You have your boards approaching and I have my path toward my career too.  
+
+        After boards, let’s sit and talk properly  
+        in a way that works for both of us.  
+
+        All the best for your boards, de.  
+        You will ace it. Don’t worry.  
+
+        And don’t forget…  
+        I am always here. 💖
+    </div>
+
+    <div id="audioSection" class="audioSection">
+        <br>
+        There’s one more thing… 💌<br>
+        <button onclick="playSinging()">Play it 🎙</button>
+    </div>
+</div>
+
+<script>
+const text = "I knew you would say yes… 😌";
+let i = 0;
+
+function type(){
+    if(i < text.length){
+        document.getElementById("mainText").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type,50);
+    }
+}
+type();
+
+function reveal(){
+    document.getElementById("secret").style.opacity="1";
+    setTimeout(()=>{
+        document.getElementById("audioSection").style.opacity="1";
+    },1200);
+}
+
+function playSinging(){
+    const bg = document.getElementById("bgMusic");
+    const singing = document.getElementById("singing");
+
+    let fadeOut = setInterval(()=>{
+        if(bg.volume > 0.05){
+            bg.volume -= 0.05;
+        } else {
+            clearInterval(fadeOut);
+            bg.pause();
+        }
+    },200);
+
+    singing.play();
+
+    singing.onended = function(){
+        bg.play();
+        let fadeIn = setInterval(()=>{
+            if(bg.volume < 0.5){
+                bg.volume += 0.05;
+            } else {
+                clearInterval(fadeIn);
+            }
+        },200);
+    };
+}
+
+document.addEventListener("click",()=>{
+    document.getElementById("bgMusic").play();
+});
+</script>
+
+</body>
+</html>

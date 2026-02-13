@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Samara</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    font-family:'Segoe UI',sans-serif;
+    background:radial-gradient(circle at center,#3b0000 0%, #150000 40%, #000 80%);
+    overflow:hidden;
+    color:white;
+}
+
+/* ENTRY ANIMATION */
+body{
+    opacity:0;
+    animation:fadeIn 1.8s ease forwards;
+}
+
+@keyframes fadeIn{
+    to{opacity:1;}
+}
+
+/* Subtle breathing glow */
+.glow{
+    position:absolute;
+    width:700px;
+    height:700px;
+    background:#8b0000;
+    filter:blur(200px);
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    animation:pulse 6s ease-in-out infinite;
+    opacity:0.4;
+}
+
+@keyframes pulse{
+    0%,100%{transform:translate(-50%,-50%) scale(1);}
+    50%{transform:translate(-50%,-50%) scale(1.1);}
+}
+
+/* Floating particles */
+.particle{
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:#ff4d4d;
+    border-radius:50%;
+    opacity:0.6;
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0);}
+    to{transform:translateY(-100vh);}
+}
+
+/* Card */
+.card{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0.95);
+    text-align:center;
+    padding:50px;
+    width:90%;
+    max-width:480px;
+    border-radius:25px;
+    backdrop-filter:blur(20px);
+    background:rgba(120,0,0,0.25);
+    box-shadow:0 0 60px rgba(139,0,0,0.8);
+    animation:cardEnter 1.2s ease forwards;
+}
+
+@keyframes cardEnter{
+    to{transform:translate(-50%,-50%) scale(1);}
+}
+
+/* YES button */
+#yesBtn{
+    padding:14px 36px;
+    font-size:18px;
+    border-radius:40px;
+    border:none;
+    background:#d00000;
+    color:white;
+    cursor:pointer;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#yesBtn:hover{
+    box-shadow:0 0 20px #ff1a1a;
+}
+
+/* Floating NO button */
+#noBtn{
+    position:fixed;
+    padding:14px 36px;
+    font-size:18px;
+    border-radius:40px;
+    border:2px solid #d00000;
+    background:transparent;
+    color:#ff4d4d;
+    cursor:pointer;
+    z-index:9999;
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+
+<div class="card">
+    <h1 style="color:#ff4d4d;">Hey Samara Alexeiii…</h1>
+    <div style="opacity:0.8;margin-bottom:20px;">I made something for you.</div>
+
+    <h2 style="color:#ff1a1a;margin-bottom:30px;">
+        Will you be my Valentine? 🩸💖
+    </h2>
+
+    <button id="yesBtn">YES 😌</button>
+</div>
+
+<button id="noBtn">NO 🙄</button>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+/* Place NO safely */
+let x = window.innerWidth * 0.6;
+let y = window.innerHeight * 0.6;
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
+
+/* Move NO safely */
+function moveNo(){
+    const padding = 30;
+
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+    x = Math.random() * maxX;
+    y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+/* Escape when cursor near */
+document.addEventListener("mousemove",(e)=>{
+    const rect = noBtn.getBoundingClientRect();
+    const centerX = rect.left + rect.width/2;
+    const centerY = rect.top + rect.height/2;
+
+    const distance = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+
+    if(distance < 100){
+        moveNo();
+    }
+});
+
+/* Prevent click */
+noBtn.addEventListener("click",(e)=>{
+    e.preventDefault();
+    moveNo();
+});
+
+/* YES click */
+document.getElementById("yesBtn").addEventListener("click",()=>{
+    window.location.href="yes.html";
+});
+
+/* Generate floating particles */
+for(let i=0;i<25;i++){
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    p.style.left = Math.random()*100 + "vw";
+    p.style.top = Math.random()*100 + "vh";
+    p.style.animationDuration = (5 + Math.random()*5) + "s";
+    p.style.opacity = Math.random()*0.6;
+    document.body.appendChild(p);
+}
+</script>
+
+</body>
+</html>
